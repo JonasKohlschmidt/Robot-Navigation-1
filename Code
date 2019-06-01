@@ -1,0 +1,742 @@
+%Declarations
+blue = -1
+red = -1
+pi=3.1416
+rad2deg = 180/pi
+deg2rad = pi/180
+array "minArray" 10
+array "boxCornersX" 9
+array "boxCornersY" 9
+
+
+%Set initial target
+target = 1
+
+laser "resetplanner"
+laser "resetlocalizer"
+vision "connect=smr6:24920"
+vision "kinect open"
+
+%%%%%%%%%%%%%%%%%%%  ADD Lines  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+laser "addline startx=0 starty=0 endx=1.8 endy=0 name='a'"
+laser "addline startx=2.2 starty=0 endx=4 endy=0 name='b' "
+laser "addline startx=4 starty=0 endx=4 endy=1.8 name='c' "
+laser "addline startx=4 starty=3.2 endx=4 endy=5 name='d' "
+laser "addline startx=4 starty=5 endx=2.2 endy=5 name='e' "
+laser "addline startx=1.8 starty=5 endx= endy=5 name='f' "
+laser "addline startx=0 starty=5 endx=0 endy=3.2 name='g' "
+laser "addline startx=0 starty=1.8 endx=0 endy=0 name='h' "
+laser "addline startx=2.3 starty=2.5 endx=2.3 endy=3.1 name='z'"
+laser "addline startx=2.3 starty=3.1 endx=3.1 endy=3.1 name='y' "
+laser "addline startx=3.1 starty=3.1 endx=3.1 endy=4.3 name='x' "
+laser "addline startx=3.1 starty=4.3 endx=0.9 endy=4.3 name='w' "
+laser "addline startx=0.9 starty=4.3 endx=0.9 endy=3.1 name='v' "
+laser "addline startx=0.9 starty=3.1 endx=1.7 endy=3.1 name='u'"
+laser "addline startx=1.7 starty=3.1 endx=1.7 endy=2.5 name='t' "
+laser "addline startx=1.5 starty=3.7 endx=2.5 endy=3.7 name='s' "
+laser "addline startx=2 starty=3.7 endx=2 endy=4.3 name='r' "
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%  ADD Map Points  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+laser "addpoint pno=1 x=0.375 y=0.375"  %Start
+laser "addpoint pno=2 x=0.55 y=1.6"     %G2
+laser "addpoint pno=3 x=0.45 y=2.25"    
+laser "addpoint pno=4 x=-0.5 y=2.25"    
+laser "addpoint pno=5 x=-0.55 y=1.6"    %G1
+laser "addpoint pno=6 x=3.45 y=1.6"      %G3
+laser "addpoint pno=7 x=3.55 y=2.25"     
+laser "addpoint pno=8 x=4.55 y=1.6"        %G4
+laser "addpoint pno=9 x=4.5 y=2.25"
+laser "addpoint pno=10 x=2 y=2.25"        %Maze start
+laser "addpoint pno=11 x=0.45 y=2.7"
+laser "addpoint pno=12 x=0.45 y=3.5"       %G6
+laser "addpoint pno=13 x=-0.55 y=3.5"     %G5
+laser "addpoint pno=14 x=-0.5 y=2.7"    
+laser "addpoint pno=15 x=3.55 y=2.7"    
+laser "addpoint pno=16 x=3.55 y=3.5"    %G7
+laser "addpoint pno=17 x=4.55 y=3.5"       %G8
+laser "addpoint pno=18 x=4.5 y=2.7"     
+laser "addpoint pno=19 x=1.2 y=3.4"    
+laser "addpoint pno=20 x=2 y=3.4"    
+laser "addpoint pno=21 x=2.8 y=3.4"
+laser "addpoint pno=22 x=1.1 y=3.95"      %G13
+laser "addpoint pno=23 x=2.8 y=3.95"     %G14
+laser "addpoint pno=24 x=0.7 y=4.65"    %G9  
+laser "addpoint pno=25 x=3.3 y=4.65"    %G10 
+laser "addpoint pno=26 x=0.5 y=4.1"        %G11
+laser "addpoint pno=27 x=3.55 y=4.1"        %G12
+laser "addpoint pno=28 x=0.4 y=4.7"
+laser "addpoint pno=29 x=3.6 y=4.7"
+
+%% Add Boxfinding Points %%
+laser "addpoint pno=30 x=3.3 y=1.5" % G15
+laser "addpoint pno=31 x=3.3 y=0.5" % G16
+laser "addpoint pno=32 x=2 y=0.5" % G17
+laser "addpoint pno=33 x=0.5 y=0.5" % G18
+laser "addpoint pno=34 x=0.5 y=1.5" % G19
+laser "addpoint pno=35 x=0.5 y=2.3" % G20
+laser "addpoint pno=36 x=2 y=2.3" % G21
+laser "addpoint pno=37 x=3.3 y=2.3" % G22
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%% Arrays of Gpoints  %%%%%%%%%%%%%%%%%%%%%%%
+array "Gx" 23
+array "Gy" 23
+array "Gth" 23
+
+Gx[1]=-0.55
+Gy[1]=1.6
+Gth[1]=0
+Gx[2]=0.55
+Gy[2]=1.6
+Gth[2]=pi
+Gx[3]=3.45
+Gy[3]=1.6
+Gth[3]=0
+Gx[4]=4.55
+Gy[4]=1.6
+Gth[4]=pi
+Gx[5]=-0.55
+Gy[5]=3.5
+Gth[5]=0
+Gx[6]=0.55
+Gy[6]=3.5
+Gth[6]=pi
+Gx[7]=3.45
+Gy[7]=3.5
+Gth[7]=0
+Gx[8]=4.55
+Gy[8]=3.5
+Gth[8]=pi
+Gx[9]=0.7
+Gy[9]=4.65
+Gth[9]=pi
+Gx[10]=3.3
+Gy[10]=4.65
+Gth[10]=0
+Gx[11]=0.5
+Gy[11]=4.1
+Gth[11]=pi/2
+Gx[12]=3.5
+Gy[12]=4.1
+Gth[12]=pi/2
+Gx[13]=1.1
+Gy[13]=3.95
+Gth[13]=0
+Gx[14]=2.8
+Gy[14]=3.95
+Gth[14]=pi
+
+%% Add Boxfinding Guidemarks %%
+Gx[15]=3.5
+Gy[15]=1.5
+Gth[15]=pi
+Gx[16]=3.3
+Gy[16]=0.5
+Gth[16]=3*(pi/4)
+Gx[17]=2
+Gy[17]=0.5
+Gth[17]=pi/2
+Gx[18]=0.5
+Gy[18]=0.5
+Gth[18]=pi/4
+Gx[19]=0.5
+Gy[19]=1.5
+Gth[19]=0
+Gx[20]=0.5
+Gy[20]=2.3
+Gth[20]=-pi/4
+Gx[21]=2
+Gy[21]=2.3
+Gth[21]=-pi/2
+Gx[22]=3.3
+Gy[22]=2.3
+Gth[22]=-3*(pi/4)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%% ADD Point Connections %%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+laser "addcon pno1=1 pno2=2"
+laser "addcon pno1=2 pno2=1"
+laser "addcon pno1=2 pno2=3"
+laser "addcon pno1=3 pno2=2"
+laser "addcon pno1=3 pno2=4"
+laser "addcon pno1=4 pno2=3"
+laser "addcon pno1=4 pno2=5"
+laser "addcon pno1=5 pno2=4"
+laser "addcon pno1=3 pno2=10"
+laser "addcon pno1=10 pno2=3"
+laser "addcon pno1=10 pno2=7"
+laser "addcon pno1=7 pno2=10"
+laser "addcon pno1=7 pno2=6"
+laser "addcon pno1=6 pno2=7"
+laser "addcon pno1=8 pno2=9"
+laser "addcon pno1=9 pno2=8"
+laser "addcon pno1=18 pno2=17"
+laser "addcon pno1=17 pno2=18"
+laser "addcon pno1=18 pno2=15"
+laser "addcon pno1=15 pno2=18"
+laser "addcon pno1=15 pno2=16"
+laser "addcon pno1=16 pno2=15"
+laser "addcon pno1=15 pno2=7"
+laser "addcon pno1=7 pno2=15"
+laser "addcon pno1=9 pno2=7"
+laser "addcon pno1=7 pno2=9"
+laser "addcon pno1=3 pno2=11"
+laser "addcon pno1=11 pno2=3"
+laser "addcon pno1=11 pno2=12"
+laser "addcon pno1=12 pno2=11"
+laser "addcon pno1=11 pno2=14"
+laser "addcon pno1=14 pno2=11"
+laser "addcon pno1=14 pno2=13"
+laser "addcon pno1=13 pno2=14"
+laser "addcon pno1=14 pno2=4"
+laser "addcon pno1=4 pno2=14"
+laser "addcon pno1=12 pno2=26"
+laser "addcon pno1=26 pno2=12"
+laser "addcon pno1=28 pno2=26"
+laser "addcon pno1=26 pno2=28"
+laser "addcon pno1=24 pno2=28"
+laser "addcon pno1=28 pno2=24"
+laser "addcon pno1=24 pno2=25"
+laser "addcon pno1=25 pno2=24"
+laser "addcon pno1=25 pno2=29"
+laser "addcon pno1=29 pno2=25"
+laser "addcon pno1=16 pno2=27"
+laser "addcon pno1=27 pno2=16"
+laser "addcon pno1=29 pno2=27"
+laser "addcon pno1=27 pno2=29"
+laser "addcon pno1=10 pno2=20"
+laser "addcon pno1=20 pno2=10"
+laser "addcon pno1=20 pno2=19"
+laser "addcon pno1=19 pno2=20"
+laser "addcon pno1=20 pno2=21"
+laser "addcon pno1=21 pno2=20"
+laser "addcon pno1=21 pno2=23"
+laser "addcon pno1=23 pno2=21"
+laser "addcon pno1=19 pno2=22"
+laser "addcon pno1=22 pno2=19"
+
+%% add boxfinding connections 
+laser "addcon pno1=6 pno2=30"
+laser "addcon pno1=30 pno2=31"
+laser "addcon pno1=31 pno2=32"
+laser "addcon pno1=32 pno2=33"
+laser "addcon pno1=33 pno2=34"
+laser "addcon pno1=34 pno2=35"
+laser "addcon pno1=35 pno2=36"
+laser "addcon pno1=36 pno2=37"
+laser "addcon pno1=37 pno2=6"
+
+laser "calculatecost"
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+laser "setinitpose x=0.375 y=0.375 th=3.14"
+laser "setinitcov Cx=0.01 Cy=0.01 Cth=0.01"
+laser "push t='1' cmd='localize'"
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%  Main loop %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+lastReadGuidemark = 0
+guidemarkRead = target
+xstart = 0.375
+ystart = 0.375
+xend = Gx[target]
+yend = Gy[target]
+thend = Gth[target]
+
+label "mainloopstart"
+
+eval guidemarkRead
+
+goto "findanddrive"
+label "readguidemark"
+
+if (guidemarkRead>14 & guidemarkRead<25) "boxfindContinue"
+
+%Save the last guidemark number
+lastReadGuidemark = guidemarkRead
+
+eval lastReadGuidemark
+
+%if(lastReadGuidemark == 9 | lastReadGuidemark == 10 | lastReadGuidemark == 11 | lastReadGuidemark == 12) "fwd"
+
+if(lastReadGuidemark == 3 & red == -1 & blue == -1) "balls"
+if(lastReadGuidemark == 50) "ballsContinue"
+if(lastReadGuidemark == 99) "end"
+
+%label "fwdcontinue"
+
+wait 1
+get "guidemark"
+get "guidemark"
+wait 1
+
+eval $guidemarkok
+%%%%%%%%%%%%%%DEBUG 
+%eval guidemarkRead 
+%if(guidemarkRead == 14) "guidmark14"
+%if(guidemarkRead == 6) "guidmark6"
+%if(guidemarkRead == 9) "guidmark9"
+%if(guidemarkRead == 3) "guidmark3"
+%%%%%%%%%%%%%%DEBUG
+guidemarkRead = $guidemarkok
+
+label "guidemarkOverride"
+
+xstart = xend
+ystart = yend
+
+if(guidemarkRead<1) "faceGmk"
+label "faceGmkBack"
+
+eval guidemarkRead
+
+if(guidemarkRead == 98 & red != -1 & blue != -1) "boxfind"  
+if(guidemarkRead == 98 & red == -1 & blue == -1) "balls"
+if(guidemarkRead == 99) "gotostart"
+
+xend = Gx[guidemarkRead]
+yend = Gy[guidemarkRead]
+thend = Gth[guidemarkRead]
+
+label "gotostartBack"
+
+eval guidemarkRead
+
+eval xend; yend; thend
+
+if(guidemarkRead == 0) "end"
+
+goto "mainloopstart"
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%  Find and Drive Route %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+label "findanddrive"
+
+array "pathx" 20
+array "pathy" 20
+array "pathth" 20
+th1=0
+
+%%
+stringcat "findroute startx=" xstart "starty=" ystart " endx=" xend " endy=" yend
+laser "$string"
+wait 1
+N=$l4
+N1=$l4
+label "routefinder"
+stringcat "getpoint p=" N
+laser "$string"
+wait 0.5
+pathx[N]=$l5
+pathy[N]=$l6
+pathth[N]=$l7
+eval pathx[N]; pathy[N]; pathth[N]
+N=N-1
+if (N>=0) "routefinder"
+
+%%Turn towards the drive direction
+
+eval pathx[N1-1]
+eval pathy[N1-1]
+wait 2
+
+tempx = cos($l2)*pathx[N1-1] - sin($l2)*pathy[N1-1] + $l0
+tempy = sin($l2)*pathx[N1-1] + cos($l2)*pathy[N1-1] + $l1
+tempth = $l2
+angleTowardsNextPoint = atan2(($odoy - tempy),($odox - tempx))
+angleTowardsNextPoint = (-1*angleTowardsNextPoint*rad2deg)
+laser "localize"
+turntemp = ($odoth - tempth)*rad2deg*-1 - angleTowardsNextPoint
+eval turntemp
+turn turntemp
+
+
+%Drive route
+label "driveroute"
+eval pathx[N1]; pathy[N1]; pathth[N1]
+x=pathx[N1]
+y=pathy[N1]
+th=pathth[N1]
+N1=N1-1
+eval th
+drivew x y th "rad":($targetdist<0.25)
+if (N1==-1) "lastpoint"
+if (N1>=0) "driveroute"
+goto "end"
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%% Positioning target point  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+label "lastpoint"
+laser "localize"
+
+eval $l0; $l1; $l2
+
+xtarget = xend
+ytarget = yend
+thtarget = thend
+
+if(guidemarkRead==99) "skipPositioning" %if end --> dont do positioning
+
+%Get target coordinates in odometry coordinates
+xodo = cos($l2)*xtarget - sin($l2)*ytarget + $l0
+yodo = sin($l2)*xtarget + cos($l2)*ytarget + $l1
+thodo = $l2 + thtarget
+dist = sqrt((xodo-$odox)*(xodo-$odox)+(yodo-$odoy)*(yodo-$odoy))
+alpha = atan2(($odoy-yodo),($odox-xodo))
+alpha = (-1*alpha*rad2deg)
+firstturn = ($odoth - $l2)*rad2deg*-1 - alpha
+turn firstturn
+
+if(guidemarkRead==21) "skipfwd" %if 21 --> dont do fwd dist --> dont get into box territory
+fwd dist
+label "skipfwd"
+
+laser "localize"
+thodo = $l2 + thtarget
+thirdturn = ($odoth - thodo)*rad2deg*-1
+eval $odoth
+eval thtarget
+eval thodo
+turn thirdturn
+
+label "skipPositioning"
+
+goto "readguidemark"
+
+
+
+%%%%%%%%%%%%%%%%%%%%%  Try to read Guidemark  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+label "faceGmk"
+
+turn 10
+wait 1
+get "guidemark"
+get "guidemark"
+wait 1
+
+guidemarkRead = $guidemarkok
+
+if (guidemarkRead>0) "faceGmkBack"
+
+turn -20
+wait 1
+get "guidemark"
+get "guidemark"
+wait 1
+
+guidemarkRead = $guidemarkok
+
+if (guidemarkRead>0) "faceGmkBack"
+
+turn 10
+fwd -0.1
+wait 1
+get "guidemark"
+get "guidemark"
+wait 1
+
+guidemarkRead = $guidemarkok
+
+if (guidemarkRead>0) "faceGmkBack"
+
+turn 10
+wait 1
+get "guidemark"
+get "guidemark"
+wait 1
+
+guidemarkRead = $guidemarkok
+
+if (guidemarkRead>0) "faceGmkBack"
+
+turn -20
+
+wait 1
+get "guidemark"
+get "guidemark"
+wait 1
+
+guidemarkRead = $guidemarkok
+
+if (guidemarkRead>0) "faceGmkBack"
+
+guidemarkRead = 98
+goto "balls"
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%% Read Balls  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+label "balls"
+
+if(guidemarkRead == 98) "drivetoG3"
+
+label "ballsContinue"
+
+fwd 0.05
+turn -98
+
+wait 1
+vision "poolget img=18 savepng='img.png' smrcl=true"
+wait 1
+vision "poolset img=70 loadpng='img.png' smrcl=true"
+wait 1
+
+
+%%% Red ball
+vision "bf7 img=70 debug=true device=18 smrcl=true"
+wait 1
+red=$vis4
+
+vision "poolget img=49 savepng='mask.png' smrcl=true"
+wait 1
+
+
+%%% Blue ball
+
+vision "poolset img=70 loadpng='img.png' smrcl=true"
+wait 1
+
+vision "bf7 img=70 debug=true device=18 smrcl=true blue"
+wait 1
+blue=$vis4
+
+vision "poolget img=49 savepng='mask2.png' smrcl=true"
+wait 1
+
+%show number of red balls:
+eval red
+%show number of blue balls:
+eval blue
+
+turn 98
+fwd -0.05
+
+if(lastReadGuidemark != 50) "readguidemark"
+
+goto "boxfind"
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%  Box finding %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+label "boxfind"
+
+guidemarkRead = 15
+goto "guidemarkOverride"
+
+label "boxfindContinue"
+
+%Stop localizing to avoid overriding l0-l2 registers
+laser "push flush='localize'"
+wait 1
+laser "zoneobst"
+wait 1
+
+minArray[1] = $l0
+minArray[2] = $l1
+minArray[3] = $l2
+minArray[4] = $l3
+minArray[5] = $l4
+minArray[6] = $l5
+minArray[7] = $l6
+minArray[8] = $l7
+minArray[9] = $l8
+
+%Restart localization
+laser "push t='1' cmd='localize'"
+
+%Translate all of the points from laser coordinates into world coorindates
+iteration = 1
+
+label "transformLoopStart"
+
+laserAngle = (iteration-5) * -20
+laserAngle = deg2rad*laserAngle
+laserX = minArray[iteration]*cos(laserAngle)
+laserY = minArray[iteration]*sin(laserAngle)
+
+xRobot = Gx[guidemarkRead]
+yRobot = Gy[guidemarkRead]
+thRobot = Gth[guidemarkRead]
+
+worldX =  xRobot + (laserX + 0.28)*cos(thRobot) - laserY*sin(thRobot)
+worldY =  yRobot + (laserX + 0.28)*sin(thRobot) + laserY*cos(thRobot)
+
+eval xRobot
+eval yRobot
+eval thRobot
+eval laserX
+eval laserY
+eval worldX
+eval worldY
+
+%Verify if the world coordinates are withing the box field
+%If not then replace minArray[interation] with big number
+%So that it is never found by min algorithm
+if(worldX<0.8 | worldX>3.2) "outOfBounds"
+if(worldY<0.8 | worldY>2.2) "outOfBounds"
+label "outOfBoundsReturn"
+
+iteration = iteration + 1
+if(iteration>9) "transformLoopEnd"
+
+goto "transformLoopStart"
+label "transformLoopEnd"
+
+
+%Find minimum value
+iterations = 2
+minValue = minArray[1]
+minIteration = 1
+
+label "minLoopStart"
+
+if(minArray[iterations]<minValue) "minUpdate"
+label "minUpdateReturn"
+
+iterations = iterations + 1
+if(iterations>9) "minLoopEnd"
+
+goto "minLoopStart"
+label "minLoopEnd"
+
+
+%Calculate which zone is the closest point it
+laserAngle = (minIteration-5) * -20
+laserAngle = deg2rad*laserAngle
+laserX = minValue*cos(laserAngle)
+laserY = minValue*sin(laserAngle)
+worldX =  xRobot + (laserX + 0.28)*cos(thRobot) - laserY*sin(thRobot)
+worldY =  yRobot + (laserX + 0.28)*sin(thRobot) + laserY*cos(thRobot)
+
+eval minIteration
+eval minValue
+eval xRobot
+eval yRobot
+eval thRobot
+eval laserX
+eval laserY
+eval worldX
+eval worldY
+
+boxCornersX[guidemarkRead-14]=worldX 
+boxCornersY[guidemarkRead-14]=worldY
+
+guidemarkRead = guidemarkRead+1
+
+if (guidemarkRead == 23) "setTo99"
+label "setTo99Back"
+
+goto "guidemarkOverride"
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%DEBUG%%%%%%%%%%%%%%%%% 
+%label "guidmark14" 
+%guidemarkRead = 6 
+%goto "guidemarkOverride" 
+
+%label "guidmark6" 
+%guidemarkRead = 9 
+%goto "guidemarkOverride" 
+
+%label "guidmark9" 
+%guidemarkRead = 3 
+%goto "guidemarkOverride" 
+
+%label "guidmark3" 
+%guidemarkRead = 98 
+%goto "guidemarkOverride" 
+
+%%%%%%%%%%%DEBUG%%%%%%%%%%%%%%%%%
+
+label "gotostart"
+xend = 0.2
+yend = 0.2
+thend = -1.57
+goto "gotostartBack"
+
+label "drivetoG3"
+guidemarkRead = 50
+xend = Gx[3]
+yend = Gy[3]
+thend = Gth[3]
+goto "gotostartBack"
+
+label "setTo99"
+guidemarkRead = 99
+goto "setTo99Back"
+
+label "minUpdate"
+minValue = minArray[iterations]
+minIteration = iterations
+goto "minUpdateReturn"
+
+label "outOfBounds"
+minArray[iteration] = 100
+goto "outOfBoundsReturn"
+
+label "end"
+averageX=(boxCornersX[1]+boxCornersX[2]+boxCornersX[3]+boxCornersX[4]+boxCornersX[5]+boxCornersX[6]+boxCornersX[7]+boxCornersX[8])/8
+averageY=(boxCornersY[1]+boxCornersY[2]+boxCornersY[3]+boxCornersY[4]+boxCornersY[5]+boxCornersY[6]+boxCornersY[7]+boxCornersY[8])/8
+
+averageX1=(boxCornersX[1]+boxCornersX[3]+boxCornersX[5]+boxCornersX[7])/4
+
+averageY1=(boxCornersY[1]+boxCornersY[3]+boxCornersY[5]+boxCornersY[7])/4
+
+averageX2=(boxCornersX[2]+boxCornersX[4]+boxCornersX[6]+boxCornersX[8])/4
+
+averageY2=(boxCornersY[2]+boxCornersY[4]+boxCornersY[6]+boxCornersY[8])/4
+
+eval boxCornersX[1]
+eval boxCornersY[1]
+
+eval boxCornersX[2]
+eval boxCornersY[2]
+
+eval boxCornersX[3]
+eval boxCornersY[3]
+
+eval boxCornersX[4]
+eval boxCornersY[4]
+
+eval boxCornersX[5]
+eval boxCornersY[5]
+
+eval boxCornersX[6]
+eval boxCornersY[6]
+
+eval boxCornersX[7]
+eval boxCornersY[7]
+
+eval boxCornersX[8]
+eval boxCornersY[8]
+
+eval blue
+eval red
+eval averageX
+eval averageY
+eval averageX1
+eval averageY1
+eval averageX2
+eval averageY2
+stop
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
