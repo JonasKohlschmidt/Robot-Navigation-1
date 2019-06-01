@@ -6,5 +6,8 @@ a "hidden" box within the maze were detected. The code is written in SMR-CL (Sma
 for robots developed by the robotics department of Danmarks Tekniske Universitet.
 
 Report.pdf --> report describing the implemented solution
+
 code --> implementation
+
 manual_smrcl.pdf --> description file of the used programming language
+
